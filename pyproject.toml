@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "myscreenshot"
+version = "0.1.0"
+description = ""
+authors = ["Arthur Tsang <arthur@youramaryllis.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^2.0.2"
+playwright = "^1.15.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
