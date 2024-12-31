@@ -1,11 +1,15 @@
 import os
 import tempfile
 import urllib.parse
+import logging
 
 from flask import Flask, request, send_file, jsonify
 from playwright.sync_api import sync_playwright
 
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 
 def take_screenshot(url, file_path):
     with sync_playwright() as p:
@@ -20,6 +24,7 @@ def take_screenshot(url, file_path):
 def screenshot():
     url = request.args.get('url')
     if not url:
+        logger.error("URL is required")
         return jsonify({"error": "URL is required"}), 400
 
     # Create a temporary directory
@@ -38,6 +43,7 @@ def screenshot():
         else:
             return jsonify({"error": "Could not retrieve the screenshot"}), 500
     except Exception as e:
+        logger.error(str(e))
         return jsonify({"error": str(e)}), 500
     finally:
         # Clean up: remove the temporary directory and its contents
@@ -48,4 +54,4 @@ def screenshot():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5050)
+    app.run(debug=True, port=5050)
